@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "d": "nodemon -w package.json -w src --exec babel-node src/index.js -t https://www.aiaikasa.com",
-    "build": "rm -rf build && babel src -d build && cp package.json ./build && mv build/index.js build/nbomb.js && pkg build/nbomb.js --out-path build/executable",
+    "d": "nodemon -w package.json -w src --exec babel-node src/index.js",
+    "build": "rm -rf build && babel src -d build && cp package.json ./build",
+    "p": "pkg build/index.js --out-path build/executable",
     "start": "node ./build/index.js",
     "pm2": "pm2 start build/index.js -i 0"
   },
