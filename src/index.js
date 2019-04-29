@@ -1,3 +1,3 @@
 #!/usr/local/bin/node
 
-// import '@babel/polyfill';
+import '@babel/polyfill';
