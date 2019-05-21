@@ -22,8 +22,8 @@
     "@babel/preset-env": "^7.4.4",
     "babel-eslint": "^10.0.1",
     "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.12.4",
-    "nodemon": "^1.18.11",
-    "pkg": "^4.3.7"
+    "eslint-plugin-react": "^7.13.0",
+    "nodemon": "^1.19.0",
+    "pkg": "^4.4.0"
   }
 }
