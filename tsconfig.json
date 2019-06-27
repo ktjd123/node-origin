@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./build",
     "allowJs": true,
-    "target": "es3",
+    "target": "esnext",
     "lib": ["es2015", "es2016", "es2017", "es2018", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
