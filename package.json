@@ -1,9 +1,20 @@
 {
   "scripts": {
     "d": "tsc-watch -p tsconfig.json --onSuccess \"node build/index.js\"",
-    "p": "pkg build/index.js --out-path build/executable",
     "start": "node ./build/index.js",
-    "pm2": "pm2 start build/index.js -i 0"
+    "pm2": "pm2 start build/index.js -i 0",
+    "p": "yarn build:mac && yarn build:win32",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux --ia32",
+    "build:win32": "electron-builder --win --ia32"
+  },
+  "main": "./build/index.js",
+  "build": {
+    "appId": "com.electron.getinfo",
+    "asar": true,
+    "files": [
+      "./build/**/*"
+    ]
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
@@ -13,8 +24,9 @@
   "devDependencies": {
     "@types/mongoose": "^5.5.6",
     "@types/node": "^12.6.3",
-    "pkg": "^4.4.0",
     "tsc-watch": "^2.2.1",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.2",
+    "electron": "^6.0.2",
+    "electron-builder": "^21.2.0"
   }
 }
