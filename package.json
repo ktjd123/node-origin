@@ -1,12 +1,12 @@
 {
   "scripts": {
-    "d": "tsc-watch -p tsconfig.json --onSuccess \"node build/index.js\"",
+    "d": "cross-env NODE_ENV=development tsc-watch -p tsconfig.json --onSuccess \"node build/index.js\"",
     "start": "node ./build/index.js",
-    "pm2": "pm2 start build/index.js -i 0",
+    "build": "rm -rf build && tsc -p tsconfig.json",
     "p": "yarn build:mac && yarn build:win32",
-    "build:mac": "electron-builder --mac",
-    "build:linux": "electron-builder --linux --ia32",
-    "build:win32": "electron-builder --win --ia32"
+    "electron-build:mac": "electron-builder --mac",
+    "electron-build:linux": "electron-builder --linux --ia32",
+    "electron-build:win32": "electron-builder --win --ia32"
   },
   "main": "./build/index.js",
   "build": {
@@ -17,16 +17,14 @@
     ]
   },
   "dependencies": {
-    "@types/axios": "^0.14.0",
     "axios": "^0.19.0",
     "mongoose": "^5.7.10"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/mongoose": "^5.5.30",
     "@types/node": "^12.12.7",
     "tsc-watch": "^4.0.0",
-    "typescript": "^3.7.2",
-    "electron": "^7.1.1",
-    "electron-builder": "^22.1.0"
+    "typescript": "^3.7.2"
   }
 }
