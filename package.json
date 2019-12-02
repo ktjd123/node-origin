@@ -21,6 +21,7 @@
     "mongoose": "^5.7.12"
   },
   "devDependencies": {
+    "cross-env": "^6.0.3",
     "@types/axios": "^0.14.0",
     "@types/mongoose": "^5.5.32",
     "@types/node": "^12.12.11",
